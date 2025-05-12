@@ -40,7 +40,7 @@ cd deliverycenter_dwh/
 ```
 ##### Instale as dependências
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 ##### Configure o Banco de Dados
 Crie um arquivo `.env` na raiz do projeto com suas credendciais, e ajuste seu `profiles.yml` do dbt. 
