@@ -1,0 +1,12 @@
+version: 2
+sources:
+  - name: db
+    schema: public
+    tables: 
+      - name: raw_channels
+      - name: raw_deliveries
+      - name: raw_drivers
+      - name: raw_hubs
+      - name: raw_orders
+      - name: raw_payments
+      - name: raw_stores
