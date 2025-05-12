@@ -1,0 +1,121 @@
+version: 2
+
+models:
+  - name: dim_channels
+    description: "Dimensão de canais de venda enriquecida com métricas de performance"
+    columns:
+      - name: channel_id
+        description: "Identificador único do canal de venda"
+        tests:
+          - not_null
+          - unique
+      - name: channel_name
+        description: "Nome do canal/marketplace"
+      - name: channel_type
+        description: "Tipo de canal (food, goods, ambos)"
+      - name: ingestion_timestamp
+        description: "Data e hora de ingestão na camada gold"
+
+  - name: dim_dates
+    description: "Dimensão de datas para análise temporal"
+    columns:
+      - name: date_id
+        description: "Data no formato YYYY-MM-DD"
+        tests:
+          - not_null
+          - unique
+      - name: year
+        description: "Ano da data"
+      - name: month
+        description: "Mês numérico (1-12)"
+      - name: day
+        description: "Dia do mês (1-31)"
+      - name: day_of_week
+        description: "Dia da semana (0-6, onde 0=Domingo)"
+      - name: week_of_year
+        description: "Semana do ano (1-52)"
+      - name: quarter
+        description: "Trimestre (1-4)"
+      - name: month_name
+        description: "Nome completo do mês"
+      - name: month_short_name
+        description: "Abreviação do nome do mês (3 letras)"
+      - name: day_name
+        description: "Nome completo do dia da semana"
+      - name: is_weekend
+        description: "Indica se é final de semana (Sábado ou Domingo)"
+
+  - name: dim_drivers
+    description: "Dimensão de entregadores parceiros com métricas de desempenho"
+    columns:
+      - name: driver_id
+        description: "Identificador único do entregador"
+        tests:
+          - not_null
+          - unique
+      - name: driver_modal
+        description: "Modal de transporte do entregador"
+      - name: driver_type
+        description: "Tipo de contrato do entregador"
+      - name: total_delivery_distance_km
+        description: "Distância total percorrida em quilômetros"
+      - name: total_deliveries
+        description: "Quantidade total de entregas realizadas"
+      - name: ingestion_timestamp
+        description: "Data e hora de ingestão na camada gold"
+
+  - name: dim_hubs
+    description: "Dimensão de hubs operacionais do Delivery Center"
+    columns:
+      - name: hub_id
+        description: "Identificador único do hub"
+        tests:
+          - not_null
+          - unique
+      - name: hub_name
+        description: "Nome do hub"
+      - name: hub_city
+        description: "Cidade onde o hub está localizado"
+      - name: hub_state
+        description: "Estado onde o hub está localizado"
+      - name: hub_latitude
+        description: "Coordenada de latitude do hub"
+      - name: hub_longitude
+        description: "Coordenada de longitude do hub"
+      - name: ingestion_timestamp
+        description: "Data e hora de ingestão na camada gold"
+
+  - name: dim_stores
+    description: "Dimensão de lojistas com métricas de performance"
+    columns:
+      - name: store_id
+        description: "Identificador único do lojista"
+        tests:
+          - not_null
+          - unique
+      - name: hub_id
+        description: "Hub ao qual o lojista está associado"
+        tests:
+          - not_null
+      - name: store_name
+        description: "Nome do estabelecimento do lojista"
+      - name: store_segment
+        description: "Segmento do lojista (food, goods, etc)"
+      - name: store_plan_price
+        description: "Valor do plano contratado pelo lojista"
+      - name: store_gross_margin
+        description: "Soma do valor total de pedidos (GMV)"
+      - name: total_orders
+        description: "Quantidade total de pedidos processados"
+      - name: store_latitude
+        description: "Coordenada de latitude do lojista"
+      - name: store_longitude
+        description: "Coordenada de longitude do lojista"
+      - name: ingestion_timestamp
+        description: "Data e hora de ingestão na camada gold"
+
+relationships:
+  - from: dim_stores
+    to: dim_hubs
+    field: hub_id
+    cardinality: many_to_one
