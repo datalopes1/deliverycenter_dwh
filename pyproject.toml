@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "deliverycenter-dwh"
+version = "0.1.0"
+description = ""
+authors = ["datalopes1 <datalopes1@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+dbt-core = "^1.9.4"
+dbt-postgres = "^1.9.0"
+sqlalchemy = "^2.0.40"
+logging = "^0.4.9.6"
+dotenv = "^0.9.9"
+pandas = "^2.2.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
