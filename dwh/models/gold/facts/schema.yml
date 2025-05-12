@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  - name: fct_orders_deliveries
+    description: "Tabela fato consolidando informações de pedidos e entregas com métricas operacionais e financeiras."
+    columns:
+      - name: order_id
+        description: "Identificador único do pedido"
+        tests:
+          - not_null
+          - unique
+      - name: store_id
+        description: "ID do lojista que realizou a venda"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_stores')
+              field: store_id
+      - name: channel_id
+        description: "ID do canal/marketplace onde o pedido foi realizado"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_channels')
+              field: channel_id
+      - name: delivery_id
+        description: "ID da entrega associada ao pedido"
+        tests:
+          - not_null
+      - name: driver_id
+        description: "ID do entregador responsável pela entrega"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_drivers')
+              field: driver_id
+      - name: delivery_order_id
+        description: "ID de ligação entre pedido e entrega"
+      - name: order_date
+        description: "Data em que o pedido foi realizado"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_dates')
+              field: date_id
+      - name: order_status
+        description: "Status atual do pedido (ex: entregue, cancelado, em andamento)"
+        tests:
+          - not_null
+      - name: order_cycle_time
+        description: "Tempo total do ciclo do pedido em minutos (da criação à conclusão)"
+        tests:
+          - not_null
+      - name: delivery_lead_time
+        description: "Tempo de entrega em minutos (da coleta à entrega)"
+        tests:
+          - not_null
+      - name: order_amount
+        description: "Valor total do pedido"
+        tests:
+          - not_null
+      - name: order_delivery_fee
+        description: "Taxa de entrega cobrada ao cliente"
+        tests:
+          - not_null
+      - name: order_delivery_cost
+        description: "Custo real da entrega para a empresa"
+        tests:
+          - not_null
+      - name: delivery_distance_meters
+        description: "Distância percorrida na entrega em metros"
+        tests:
+          - not_null
+      - name: ingestion_timestamp
+        description: "Timestamp de quando os dados foram carregados na camada gold"
+
+relationships:
+  - from: fct_orders_deliveries
+    to: dim_stores
+    field: store_id
+    cardinality: many_to_one
+    description: "Cada pedido está associado a um único lojista"
+
+  - from: fct_orders_deliveries
+    to: dim_channels
+    field: channel_id
+    cardinality: many_to_one
+    description: "Cada pedido foi realizado através de um canal de venda"
+
+  - from: fct_orders_deliveries
+    to: dim_drivers
+    field: driver_id
+    cardinality: many_to_one
+    description: "Cada entrega foi realizada por um único entregador"
+
+  - from: fct_orders_deliveries
+    to: dim_dates
+    field: order_date
+    cardinality: many_to_one
+    description: "Data em que o pedido foi realizado"
