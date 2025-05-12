@@ -1,0 +1,107 @@
+version: 2
+
+models:
+
+  - name: silver_channels
+    description: "Dados limpos e deduplicados de channels"
+    columns:
+      - name: channel_id
+        description: "Id único"
+        tests:
+          - unique
+          - not_null
+
+
+  - name: silver_deliveries
+    description: "Dados limpos e deduplicados de deliveries"
+    columns:
+      - name: delivery_id
+        description: "Id único da entrega"
+        tests:
+          - unique
+          - not_null
+
+      - name: delivery_order_id
+        description: "Id do pedido de entrega"
+        tests:
+          - not_null
+
+      - name: driver_id
+        description: "Id do entregador"
+        tests:
+          - not_null
+
+  - name: silver_drivers
+    description: "Dados limpos e deduplicados de drivers"
+    columns:
+      - name: driver_id
+        description: "Id único do entregador"
+        tests:
+          - unique
+          - not_null
+
+  - name: silver_hubs
+    description: "Dados limpos e deduplicados de hubs"
+    columns:
+      - name: hub_id
+        description: "Id único do hub"
+        tests:
+          - unique
+          - not_null
+
+  - name: silver_orders
+    description: "Dados limpos e deduplicados de hubs orders"
+    columns:
+      - name: order_id
+        description: "Id único do pedido"
+        tests:
+          - unique
+          - not_null
+
+      - name: store_id
+        description: "Id da loja"
+        tests:
+          - not_null
+
+      - name: channel_id
+        description: "Id do canal de venda"
+        tests:
+          - not_null
+
+      - name: payment_order_id
+        description: "Id do pagamento"
+        tests:
+          - not_null
+
+      - name: delivery_order_id
+        description: "Id do pedido de entrega"
+        tests:
+          - not_null
+
+  - name: silver_payments
+    description: "Dados limpos e deduplicados de payments"
+    columns:
+      - name: payment_id
+        description: "Id único do pagamento"
+        tests:
+          - unique
+          - not_null
+
+      - name: payment_order_id
+        description: "Id da pedido de pagamento"
+        tests:
+          - not_null
+
+  - name: silver_stores
+    description: "Dados limpos e deduplicados de stores"
+    columns:
+      - name: store_id
+        description: "Id único de loja"
+        tests:
+          - unique
+          - not_null
+
+      - name: hub_id
+        description: "Id do hub"
+        tests:
+          - not_null
