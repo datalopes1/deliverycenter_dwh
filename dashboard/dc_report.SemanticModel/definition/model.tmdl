@@ -1,0 +1,29 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["dim_dates","dim_channels","dim_drivers","dim_hubs","dim_stores","fct_orders_deliveries","@measures"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.142.1277.0 (25.04)+014fde450f93691fc9537f0758d73d1c5df153ef
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_dates
+ref table DateTableTemplate_52df1472-2008-45de-8f99-f0f630eae3d3
+ref table LocalDateTable_f181baed-5d39-451f-aaaa-6cb9d9f2763f
+ref table dim_channels
+ref table dim_drivers
+ref table dim_hubs
+ref table dim_stores
+ref table fct_orders_deliveries
+ref table @measures
+ref table 'dim_measures '
+
+ref cultureInfo pt-BR
+

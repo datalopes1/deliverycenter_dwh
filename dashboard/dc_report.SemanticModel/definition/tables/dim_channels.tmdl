@@ -1,0 +1,41 @@
+table dim_channels
+	lineageTag: 675f9127-66e6-4960-b31c-3158a803cf63
+
+	column channel_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 5cee9780-88f9-4cb8-803b-f5e374fa125f
+		summarizeBy: none
+		sourceColumn: channel_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel_name
+		dataType: string
+		lineageTag: 26111f17-0504-40a4-a41a-c0a8c7be4279
+		summarizeBy: none
+		sourceColumn: channel_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel_type
+		dataType: string
+		lineageTag: 73568a1e-fe2f-467e-a74e-d3f495c0474f
+		summarizeBy: none
+		sourceColumn: channel_type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_channels = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(PostgreSQL.Database("localhost", "postgres"), "SELECT *#(lf)FROM dc_gold.dim_channels", null, [EnableFolding=true]),
+				    #"Drop ingestion_timestamp" = Table.RemoveColumns(Fonte,{"ingestion_timestamp"})
+				in
+				    #"Drop ingestion_timestamp"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

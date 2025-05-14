@@ -1,0 +1,147 @@
+table fct_orders_deliveries
+	lineageTag: fae086bf-e69e-4ab7-86c1-ed73031cdd50
+
+	column order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: c941a0ed-9bcf-48e8-8fc6-0338c255c139
+		summarizeBy: sum
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 073d69bb-0125-4b47-8c7a-4caeeaaf5a00
+		summarizeBy: none
+		sourceColumn: store_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 41fe3e16-8411-4687-b501-d3c6a0a24ebc
+		summarizeBy: none
+		sourceColumn: channel_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e06a8ecc-b0c4-47a1-ade7-afe672011672
+		summarizeBy: sum
+		sourceColumn: delivery_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column driver_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ae7d06f-a5dd-423e-a24c-07a7607dca6b
+		summarizeBy: none
+		sourceColumn: driver_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_order_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a19c5cce-b3c8-4ae0-8b77-1b08a58c01be
+		summarizeBy: sum
+		sourceColumn: delivery_order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 081a5562-567a-4f0e-a471-e91603d7f94b
+		summarizeBy: none
+		sourceColumn: order_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: string
+		lineageTag: c40a7474-cc60-4bc8-96ed-1871a7a4c448
+		summarizeBy: none
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_cycle_time
+		dataType: double
+		lineageTag: 91f06886-8c53-494f-82c7-9f7cf5d3db77
+		summarizeBy: sum
+		sourceColumn: order_cycle_time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column delivery_lead_time
+		dataType: double
+		lineageTag: ca50c39b-2e40-47bb-94b6-d8399b86e8e3
+		summarizeBy: sum
+		sourceColumn: delivery_lead_time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_amount
+		dataType: double
+		lineageTag: 69ddf20a-9c2e-4646-9f6c-4d53d41a81c7
+		summarizeBy: sum
+		sourceColumn: order_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_delivery_fee
+		dataType: double
+		lineageTag: 2bc6be63-7b91-4986-899d-908ff4adf12a
+		summarizeBy: sum
+		sourceColumn: order_delivery_fee
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_delivery_cost
+		dataType: double
+		lineageTag: 1707f4f8-2269-4047-b416-ca1feaede752
+		summarizeBy: sum
+		sourceColumn: order_delivery_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column delivery_distance_meters
+		dataType: double
+		lineageTag: 18e98fc7-6c47-44aa-b3cb-cc6b4dfd1dab
+		summarizeBy: sum
+		sourceColumn: delivery_distance_meters
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fct_orders_deliveries = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(PostgreSQL.Database("localhost", "postgres"), "SELECT *#(lf)FROM dc_gold.fct_orders_deliveries#(lf)#(lf)", null, [EnableFolding=true]),
+				    #"Drop ingestion_timestamp" = Table.RemoveColumns(Fonte,{"ingestion_timestamp"})
+				in
+				    #"Drop ingestion_timestamp"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
