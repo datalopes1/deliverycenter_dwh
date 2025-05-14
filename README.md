@@ -26,6 +26,10 @@ O projeto faz uso da arquitetura **medalhão** (bronze, silver, gold) para organ
 
 ![img](img/erdiagram.png)
 
+##### Dashboard do Power BI
+![img](img/dash.png)
+>[Acesse no Power BI Service](https://app.powerbi.com/view?r=eyJrIjoiMGJmNTYwYTQtODIwYy00Y2FjLTliMGUtNDJjMGNjNDllNGZhIiwidCI6ImJmOWUzNDgwLTkyM2UtNDNmMS04OTE1LTlmMmY3YjY2NTc0MSJ9)
+
 ## ⚙️ Tecnologias Utilizadas
 - 🐍 **Python** (Pandas, SQLAlchemy)
 - 🐘 **PostgreSQL** (Banco de dados relacional)
@@ -72,6 +76,7 @@ dbt docs serve
 
 ```plaintext
 deliverycenter_dwh/
+├── dashboard/              # Dashboard do Power BI em .pbip
 ├── data/                   
 |   └── raw/                # Arquivos CSV brutos
 ├── dwh/                    # Projeto do dbt    

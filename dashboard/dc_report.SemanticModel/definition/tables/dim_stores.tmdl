@@ -1,0 +1,99 @@
+table dim_stores
+	lineageTag: db3fe862-462b-4b81-84cd-5af1607506bb
+
+	column store_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 63c79996-a810-4c5f-ad13-a6f9fb43b726
+		summarizeBy: none
+		sourceColumn: store_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column hub_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e9eff0c5-e88a-48f3-9d53-abe1ba33605f
+		summarizeBy: none
+		sourceColumn: hub_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_name
+		dataType: string
+		lineageTag: 6d9f88fb-aa9b-4fb1-893a-ec0648d067ec
+		summarizeBy: none
+		sourceColumn: store_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_segment
+		dataType: string
+		lineageTag: d1b09b91-a8b2-40f2-a578-886607453e81
+		summarizeBy: none
+		sourceColumn: store_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_plan_price
+		dataType: double
+		lineageTag: 519b16e5-d4a6-49ec-912c-7fe867066097
+		summarizeBy: sum
+		sourceColumn: store_plan_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column store_gross_margin
+		dataType: double
+		lineageTag: 975dbb3d-344f-4676-add7-a901e5e6c161
+		summarizeBy: sum
+		sourceColumn: store_gross_margin
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: 33d5b52d-2a58-45ce-9b22-638d1fbf4084
+		summarizeBy: sum
+		sourceColumn: total_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_latitude
+		dataType: double
+		lineageTag: 79acdca6-a337-40b7-b53b-aa765b26d416
+		summarizeBy: sum
+		sourceColumn: store_latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column store_longitude
+		dataType: double
+		lineageTag: df8b7633-12a4-4b85-afc7-fe1b47472c4f
+		summarizeBy: sum
+		sourceColumn: store_longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_stores = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(PostgreSQL.Database("localhost", "postgres"), "SELECT *#(lf)FROM dc_gold.dim_stores#(lf)#(lf)", null, [EnableFolding=true]),
+				    #"Drop ingestion_timestamp" = Table.RemoveColumns(Fonte,{"ingestion_timestamp"})
+				in
+				    #"Drop ingestion_timestamp"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

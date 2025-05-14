@@ -1,0 +1,25 @@
+relationship f3e95698-a2a3-4ad8-a5c7-346c5afb93a0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_dates.date_id
+	toColumn: LocalDateTable_f181baed-5d39-451f-aaaa-6cb9d9f2763f.Date
+
+relationship AutoDetected_a5466bef-c655-4211-b647-a7b66b2873bc
+	fromColumn: fct_orders_deliveries.channel_id
+	toColumn: dim_channels.channel_id
+
+relationship AutoDetected_3dfe7ad4-417f-465e-bd5c-5ff81b744356
+	fromColumn: fct_orders_deliveries.driver_id
+	toColumn: dim_drivers.driver_id
+
+relationship AutoDetected_53bd49a4-94d0-4d3e-9eaf-eedb61eeecf1
+	fromColumn: dim_stores.hub_id
+	toColumn: dim_hubs.hub_id
+
+relationship AutoDetected_e6f6032b-922c-43a1-907a-92c435bd8c12
+	fromColumn: fct_orders_deliveries.store_id
+	toColumn: dim_stores.store_id
+
+relationship 10e578ad-e481-38cd-5f00-aba711568494
+	fromColumn: fct_orders_deliveries.order_date
+	toColumn: dim_dates.date_id
+

@@ -1,0 +1,49 @@
+table 'dim_measures '
+	lineageTag: 3c0407d4-9a8c-46b8-a31e-a65d0a82bd6c
+
+	column 'dim_measures '
+		lineageTag: 613e8579-3176-4f85-8c57-27a4e913b806
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'dim_measures  Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'dim_measures  Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'dim_measures  Campos'
+		isHidden
+		lineageTag: 14d65b74-6223-4532-b704-a19aba16151e
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'dim_measures  Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'dim_measures  Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 4455dd2d-4fb0-437a-bc2b-98bc753ad029
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'dim_measures ' = calculated
+		mode: import
+		source =
+				{
+				    ("Receita Total", NAMEOF('@measures'[Total Revenue]), 0),
+				    ("Total de Pedidos", NAMEOF('@measures'[Total Orders]), 1),
+				    ("Lead Time Total", NAMEOF('@measures'[Avg Cycle Time]), 2)
+				}
+
+	annotation PBI_Id = ee5d066a5948493e8dea85b6511e369a
+

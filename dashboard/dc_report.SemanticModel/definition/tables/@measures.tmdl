@@ -1,0 +1,62 @@
+table @measures
+	lineageTag: 2e6bcd83-ac07-4af4-b5da-cb38db8007e0
+
+	measure 'Avg Lead Time' =
+			
+			AVERAGE('fct_orders_deliveries'[delivery_lead_time])
+		lineageTag: 8f408876-e123-4b7e-996c-f81aa17930cb
+
+		formatStringDefinition = "#0min"
+
+	measure 'Total Orders' =
+			
+			DISTINCTCOUNT('fct_orders_deliveries'[delivery_id])
+		formatString: #,0
+		lineageTag: 45b1ebc9-81b9-4827-b90e-aa357ea62476
+
+	measure 'Total Revenue' =
+			
+			SUM('fct_orders_deliveries'[order_delivery_fee])
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: 4d0444a2-571d-460e-aa15-684531019e08
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Avg Delivery Distance KM' =
+			
+			VAR DistMedia =
+			    AVERAGE ( 'fct_orders_deliveries'[delivery_distance_meters] )
+			RETURN
+			    DIVIDE ( DistMedia, 1000, 0 )
+		formatString: #,0.00
+		lineageTag: 3272d884-2b4f-49f1-bf7f-89a5d38b14fd
+
+	measure 'Avg Cycle Time' =
+			
+			AVERAGE('fct_orders_deliveries'[order_cycle_time])
+		lineageTag: 3e96aa80-ea60-4780-a276-ce9473bbbb8a
+
+		formatStringDefinition = "#,0min"
+
+	column 'Coluna 1'
+		dataType: string
+		isHidden
+		lineageTag: 390f7516-abc2-414a-9b07-4f4ea3633a71
+		summarizeBy: none
+		sourceColumn: Coluna 1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition @measures = m
+		mode: import
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Coluna 1" = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Coluna 1", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+

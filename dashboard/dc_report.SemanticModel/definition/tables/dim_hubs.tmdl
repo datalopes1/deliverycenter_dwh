@@ -1,0 +1,69 @@
+table dim_hubs
+	lineageTag: ac397477-b975-41e4-9371-923b718069f7
+
+	column hub_id
+		dataType: int64
+		formatString: 0
+		lineageTag: fc25d69a-6e96-47cc-bcc7-2301c467691a
+		summarizeBy: none
+		sourceColumn: hub_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column hub_name
+		dataType: string
+		lineageTag: e6c5e50a-3335-43c9-870a-693154942c71
+		summarizeBy: none
+		sourceColumn: hub_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column hub_city
+		dataType: string
+		lineageTag: f0f91118-d769-48e1-a27e-56c58d230e86
+		summarizeBy: none
+		sourceColumn: hub_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column hub_state
+		dataType: string
+		lineageTag: 6ba3afe9-3405-48cb-b4c7-29e696d8a1f5
+		summarizeBy: none
+		sourceColumn: hub_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column hub_latitude
+		dataType: double
+		lineageTag: 4c0f4250-c879-496c-98a5-56d2f4704092
+		summarizeBy: none
+		sourceColumn: hub_latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column hub_longitude
+		dataType: double
+		lineageTag: 32e0e659-36e5-44de-868a-dc5083a09c1d
+		summarizeBy: none
+		sourceColumn: hub_longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_hubs = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(PostgreSQL.Database("localhost", "postgres"), "SELECT *#(lf)FROM dc_gold.dim_hubs#(lf)", null, [EnableFolding=true]),
+				    #"Drop ingestion_timestamp" = Table.RemoveColumns(Fonte,{"ingestion_timestamp"})
+				in
+				    #"Drop ingestion_timestamp"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
